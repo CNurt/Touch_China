@@ -1,5 +1,6 @@
 ﻿//List of Events:  http://www.w3schools.com/jsref/dom_obj_event.asp
-var iTest = 1;
+//Helpful for JScript Debugging: document.getElementById("TaskText").innerHTML = currentMatrix;//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
+var NrClicks = 0;   //Amount of clicks on Provinces
 //var TestStringArray = [ "erstes Testelement\n" ]; 
 var TestString = "erstes Testelement;闺女\n"
 
@@ -18,10 +19,8 @@ var fOnMouseOverProvince = function(ThisElement) {
 var fOnClickProvince = function(ThisElement) {
 	//Testing the TextBox
 	changeText();
-	onChangeText(document.getElementById("TaskText"), document.getElementById("TaskBox"));
+	ResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
 	
-	//Testing fileoutput and stringarray
-	TestString = TestString + ThisElement.id + ";" + prompt(ThisElement.id) + ";\n"
 }
 
 var fOnMouseOutProvince = function(ThisElement) {
@@ -30,28 +29,32 @@ var fOnMouseOutProvince = function(ThisElement) {
 
 function changeText() {
 // ATM just TEST
-	iTest = iTest * (iTest + 1);
-	document.getElementById("TaskText").innerHTML = iTest;
+	NrClicks = NrClicks + 1;
+	document.getElementById("TaskText").innerHTML = NrClicks;
 }
 
-function onChangeText(TextID, RectangleID) {
+function ResizeTextBox(TextID, RectangleID) {
 // Resize rectangle used as a textbox in order to keep text inside the box
 	var CurrentTextWidth = TextID.getBoundingClientRect().width;
 	var CurrentTextHeight = TextID.getBoundingClientRect().height;
-	
-	RectangleID.setAttribute('width', CurrentTextWidth+20);
-	RectangleID.setAttribute('height', CurrentTextHeight+20);
+    
+	RectangleID.setAttributeNS(null,'width', CurrentTextWidth);
+	RectangleID.setAttributeNS(null,'height', CurrentTextHeight);
 }
 
+//ATM unused
 function onTextfileClick() {
-    var link = document.getElementById('Link_LittleTextBox');
+//gets an <a> Tag by ID and asigns a link to a created textfile
+    var link = document.getElementById('ID_FROM_<a>_TAG');
+    //the <a> Tag already has to have the xlink:href="#" Attribute, otherwise it won't work
+    //IMPROVEMENT POSSIBLE
+    //should use setAttributeNS instead of setAttribute inside SVG but can't get it to work
 		link.setAttribute('xlink:href', makeTextFile(TestString));
-    //link.href = makeTextFile("Ni Hao!");
-		//prompt(makeTextFile("Ni Hao!"));
-    //link.style.display = 'block';
   }
 
+//ATM unused
 makeTextFile = function (text) {
+//creates a link to a textfile, which has been created from a string variable
 	var textFile = null
 	//charset=utf-8 works only in firefox so far
 	var data = new Blob([text], {type: 'text/plain; charset=utf-8'});
