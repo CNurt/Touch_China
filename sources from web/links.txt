@@ -1,0 +1,12 @@
+http://www.maschek.hu/imagemap/imgmap
+https://wiki.selfhtml.org/wiki/HTML/Multimedia_und_Grafiken/verweissensitive_Grafiken
+http://svg.tutorial.aptico.de/start3.php?knr=6&kname=Hyperlinks&uknr=6.1&ukname=Besonderheiten%20des%20a-Elements
+https://css-tricks.com/links-inline-svg-staying-target-events/
+http://www.petercollingridge.co.uk/data-visualisation/using-javascript-control-svg
+http://www.petercollingridge.co.uk/book/export/html/437
+https://en.wikipedia.org/wiki/Provinces_of_China#List_of_province-level_divisions
+http://wikitravel.org/en/List_of_Chinese_provinces_and_regions
+https://sarasoueidan.com/blog/svg-coordinate-systems/
+
+Quellen:
+http://www.mediaevent.de/xhtml/area-map.html
