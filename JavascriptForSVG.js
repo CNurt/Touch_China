@@ -1,29 +1,44 @@
-﻿//List of Events:  http://www.w3schools.com/jsref/dom_obj_event.asp
+﻿var debuggingMode = false;
+//List of Events:  http://www.w3schools.com/jsref/dom_obj_event.asp
 //Helpful for JScript Debugging: document.getElementById("TaskText").innerHTML = currentMatrix;//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
 var NrClicks = 0;   //Amount of clicks on Provinces
 //var TestStringArray = [ "erstes Testelement\n" ]; 
-var TestString = "erstes Testelement;闺女\n"
+var TestString = "erstes Testelement;闺女\n";
 
-//It would be better to use .addEventListener but I didn't get it to work
-//so I'll stick with the  onclick=" function" in the SVG
 // see following for events:  https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+//ACHTUNG!  addEventListener can only use functions without a return value!!!
+//"load" waits longer than "DOMContentLoaded", otherwise similar behaviour
+// that why load is disabled
+//window.addEventListener("load", fAddEventListeners, false);
+window.addEventListener("DOMContentLoaded", fAddEventListeners, false);
 
+function fAddEventListeners() {
+	var WholeMapPaths = document.getElementById("MapTiles").getElementsByTagName("path")
+	for (i = 0; i < WholeMapPaths.length; i++) {
+		WholeMapPaths[i].addEventListener("mousedown",fOnClickProvince,true);
+	}
+}
 
 //mit Rückgabewert
-var fOnMouseOverProvince = function(ThisElement) {
+//var fOnMouseOverProvince = function(ThisElement) {
 //ohne Rückgabewert
-//function fOnMouseOverProvince(ThisElement) {
+function fOnMouseOverProvince(ThisElement) {
 	//ThisElement.setAttribute('fill', '#FFD026');
 }
 
-var fOnClickProvince = function(ThisElement) {
+function fOnClickProvince(evt) {
 	//Testing the TextBox
 	changeText();
 	ResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
 	
+	//move the map by clicking on any map tile
+	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
+	//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
+	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
+	
 }
 
-var fOnMouseOutProvince = function(ThisElement) {
+function fOnMouseOutProvince(ThisElement) {
 	//ThisElement.setAttribute('fill', '#FFF6D5');
 }
 
@@ -53,6 +68,7 @@ function onTextfileClick() {
   }
 
 //ATM unused
+/*
 makeTextFile = function (text) {
 //creates a link to a textfile, which has been created from a string variable
 	var textFile = null
@@ -70,3 +86,4 @@ makeTextFile = function (text) {
 	// returns a URL you can use as a href
 	return textFile;
 };
+*/
