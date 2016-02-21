@@ -1,2 +1,6 @@
 - get the pink bar to stick to the top and scale according to screen size
 - at the same time scale map according to scrolling input from user
+
+- use javascript events for smartphone
+
+- replace all "click" and "onclick" events with "mousedown" (better for touch input)

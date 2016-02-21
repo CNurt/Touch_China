@@ -7,6 +7,8 @@ http://www.petercollingridge.co.uk/book/export/html/437
 https://en.wikipedia.org/wiki/Provinces_of_China#List_of_province-level_divisions
 http://wikitravel.org/en/List_of_Chinese_provinces_and_regions
 https://sarasoueidan.com/blog/svg-coordinate-systems/
+http://www.mediaevent.de/javascript/touch-events.html
+http://stackoverflow.com/questions/4517979/how-to-align-an-object-in-svg-document
 
 Quellen:
 http://www.mediaevent.de/xhtml/area-map.html
