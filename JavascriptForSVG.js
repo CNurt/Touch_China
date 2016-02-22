@@ -13,10 +13,25 @@ var TestString = "erstes Testelement;闺女\n";
 window.addEventListener("DOMContentLoaded", fAddEventListeners, false);
 
 function fAddEventListeners() {
-	var WholeMapPaths = document.getElementById("MapTiles").getElementsByTagName("path")
-	for (i = 0; i < WholeMapPaths.length; i++) {
-		WholeMapPaths[i].addEventListener("mousedown",fOnClickProvince,true);
+	var MapTilePaths = document.getElementById("MapTiles").getElementsByTagName("path");
+	var WholeMapPaths = document.getElementById("WholeMap").getElementsByTagName("path");
+	var limit1 = MapTilePaths.length;
+	for (i = 0; i < limit1; i++) {
+		MapTilePaths[i].addEventListener("mousedown",fClickMapTile,false);
+		WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
 	}
+	var limit2 = WholeMapPaths.length;
+	for (i = limit1; i < limit2; i++) {
+		WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
+	}
+	document.getElementById("MapUnderlayer").addEventListener("mousedown",fDragMap,false);
+}
+
+function fDragMap(evt) {
+	//move the map by clicking on any map tile
+	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
+	//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
+	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
 }
 
 //mit Rückgabewert
@@ -26,29 +41,23 @@ function fOnMouseOverProvince(ThisElement) {
 	//ThisElement.setAttribute('fill', '#FFD026');
 }
 
-function fOnClickProvince(evt) {
+function fClickMapTile(evt) {
 	//Testing the TextBox
-	changeText();
-	ResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
-	
-	//move the map by clicking on any map tile
-	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
-	//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
-	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
-	
+	fchangeText();
+	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
 }
 
 function fOnMouseOutProvince(ThisElement) {
 	//ThisElement.setAttribute('fill', '#FFF6D5');
 }
 
-function changeText() {
+function fchangeText() {
 // ATM just TEST
 	NrClicks = NrClicks + 1;
 	document.getElementById("TaskText").innerHTML = NrClicks;
 }
 
-function ResizeTextBox(TextID, RectangleID) {
+function fResizeTextBox(TextID, RectangleID) {
 // Resize rectangle used as a textbox in order to keep text inside the box
 	var CurrentTextWidth = TextID.getBoundingClientRect().width;
 	var CurrentTextHeight = TextID.getBoundingClientRect().height;
