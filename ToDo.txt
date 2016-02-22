@@ -4,3 +4,6 @@
 - use javascript events for smartphone
 
 - replace all "click" and "onclick" events with "mousedown" (better for touch input)
+
+- orientation change, mobile app
+   https://jbkflex.wordpress.com/2011/12/06/429/
