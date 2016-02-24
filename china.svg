@@ -1,33 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 13.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1"
-	 id="GroupChina" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
-	 xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-	 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" sodipodi:docname="China Pro-Kopf-Einkommen.svg" inkscape:version="0.48.0 r9654"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 id="GroupChina" 
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns:cc="http://creativecommons.org/ns#"
+	 xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns="http://www.w3.org/2000/svg"
+	 xmlns:xlink="http://www.w3.org/1999/xlink"
 	 xml:space="preserve"
 	 >
 <!-- 
 IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improvement!!
 -->
 <defs>
-	<script  xlink:href="JavascriptForSVG.js"  language="JavaScript"></script>
-	<script  xlink:href="JS_MoveThings.js"  language="JavaScript"></script>
-	<script  xlink:href="CookieFunctions.js"  language="JavaScript"></script>
+	<script  xlink:href="JavascriptForSVG.js" language="JavaScript"></script>
+	<script  xlink:href="JS_MoveThings.js" language="JavaScript"></script>
+	<script  xlink:href="CookieFunctions.js" language="JavaScript"></script>
 	<style type="text/css">
 		<!-- Erklärungen zu Selektoren:
 					wiki.selfhtml.org/wiki/CSS/Selektoren/einfacher_Selektor -->
-		.LittleTextBox {
-			fill: green;
-			width: 100px;
-			height: 200px;
-		}
-		
-		text {
-			width: inherit;
-			height: inherit;
-		}
+
 		
     #MapTiles path { fill: #e69900; stroke: #e6ffe6; stroke-width: 1; }
 		#MapTiles path:hover { fill: #b36b00; }
@@ -662,16 +655,15 @@ Color Picker:  http://www.w3schools.com/colors/colors_picker.asp
       </g>
     </g>
 		<!--  display="none"  visibility="hidden" OR "visible"
-				diplay causes children to inherit this value whereas visibility is not being inherited  -->
-		<rect id="MapCover" visibility="hidden" width="100%" height="100%" style="fill:green;opacity:0.02"/>
+				"diplay" causes children to inherit this value whereas "visibility" is not being inherited  -->
+		<rect id="MapCover" cursor="pointer" visibility="hidden" width="100%" height="100%" style="fill:green;opacity:0.02"/>
 	</svg>
-	<svg class="Top" display="inline" x="0%" y="0px" viewBox="0 0 600 100" preserveAspectRatio="XMinYMin meet">
-		<rect id="pinkbg" onclick="transformMe(evt.target)" width="100%" height="100%" style="fill:pink;opacity:0.5"/>
-		<rect id="BoxControlMove" cursor="pointer" transform="matrix(1 0 0 1 0 0)"
-			onmousedown="selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);" x="200" y="0" rx="5" ry="5" width="20" height="20" style="fill:grey;stroke:black;stroke-width:5;opacity:0.5" />
+	<svg class="Top" width="100%" height="20%" display="inline" x="0" y="0" preserveAspectRatio="XMinYMin meet">
+		<rect id="pinkbg" width="100%" height="100%" style="fill:pink;opacity:0.5"/>
+		<rect id="BoxControlMove" cursor="pointer" transform="matrix(1 0 0 1 0 0)" x="200" y="0" rx="5" ry="5" width="20" height="20" style="fill:grey;stroke:black;stroke-width:5;opacity:0.5" />
 		<g class="LittleTextBox">
-			<rect id="TaskBox" x="20" y="20" rx="5" ry="5" width="20" height="20" style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
-			<text id="TaskText" x="30" y="45" fill="green">Anzahl Klicks</text>
+			<rect id="TaskBox" x="5%" y="20%" rx="1" ry="1" width="20" height="40%" style="fill:red;stroke:red;stroke-width:20;opacity:0.5" />
+			<text id="TaskText" style="font-size:36" transform="scale(1)" text-anchor="start" x="5%" y="50%" fill="green">Anzahl Klicks</text>
 		</g>
 	</svg>
 </svg>

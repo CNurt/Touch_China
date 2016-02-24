@@ -32,6 +32,7 @@ function fDragMap(evt) {
 	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
 	//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
 	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
+	return false;
 }
 
 //mit Rückgabewert
@@ -45,6 +46,7 @@ function fClickMapTile(evt) {
 	//Testing the TextBox
 	fchangeText();
 	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
+	return false;
 }
 
 function fOnMouseOutProvince(ThisElement) {
