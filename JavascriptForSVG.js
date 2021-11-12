@@ -36,13 +36,8 @@ function fAddEventListeners() {
 	document.body.addEventListener("mouseleave", function() { 
 		activeProvince = -1;
 	});
-	// document.body.addEventListener("mousemove", function(evt) { 
-	// 	if (mouseDown) {
-	// 		hasmoved = true;
-	// 	}
-	// });
 	document.body.addEventListener("mousemove",fMovement,false);
-	document.body.addEventListener("wheel",fZoom,false);
+	document.body.addEventListener("wheel",fZoom,{ passive: false });
 
 	var MapTilePaths = document.getElementById("MapTiles").getElementsByTagName("path");
 	var WholeMapPaths = document.getElementById("WholeMap").getElementsByTagName("path");
@@ -50,17 +45,14 @@ function fAddEventListeners() {
 	for (i = 0; i < limit1; i++) {
 		MapTilePaths[i].addEventListener("mousedown",fClickMapTile,false);
 		MapTilePaths[i].addEventListener("mouseup",fReleaseMapTile,false);
-		// WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
 	}
 	var limit2 = WholeMapPaths.length;
 	for (i = limit1; i < limit2; i++) {
-		// WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
 	}
-	// document.getElementById("MapUnderlayer").addEventListener("mousedown",fDragMap,false);
 }
 
 function fZoom(evt) {
-	// evt.preventDefault();
+	evt.preventDefault();
 	let WholeMap = document.getElementById("WholeMap")
 
 	scale += evt.deltaY * -0.001;
@@ -70,7 +62,6 @@ function fZoom(evt) {
   	
 	// Apply scale transform
 	realscale = Math.E ** (scale);
-	// WholeMap.style.transform = `scale(${realscale})`;
 	WholeMap.setAttribute("transform", `scale(${realscale})`);
 	// for looking up the real values (in x and y) from the element:
 	// WholeMap.transform.baseVal[0].matrix.a
@@ -88,18 +79,14 @@ function fMovement(evt) {
 
 // TODO: realize zooming with transform matrix only on "WholeMap" instead of each path individually. This also needs changing of fZoom()
 function fDragMap(evt) {
-	// if (mouseDown) {
-		
-		//IMPROVEMENT POSSIBLE, TODO
-		// Lock MousePointer and make invisible with following functions:
-		//  https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
-		
-		//move the map by clicking on any map tile
-		document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
-		//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
-		selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
-		return false;
-	// }
+	//IMPROVEMENT POSSIBLE, TODO
+	// Lock MousePointer and make invisible with following functions:
+	//  https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+	
+	//move the map by clicking on any map tile
+	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
+	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
+	return false;
 }
 
 //mit Rückgabewert
@@ -110,23 +97,31 @@ function fOnMouseOverProvince(ThisElement) {
 }
 
 function fClickMapTile(evt) {
-	// clickCoordinates.x = 
-	// mouseMoved = false;
-	activeProvince = evt.target.id;
+	activeProvince = fGetProvinceID(evt.target);
+}
+
+function fGetProvinceID(el) {
+	cname = el.className.baseVal;
+	if (cname != "province") {
+		id = ffindUpperClass(el, "province").id;
+	}
+	else {
+		id = el.id;
+	}
+	return id;
 }
 
 function fReleaseMapTile(evt) {
-	if (activeProvince == evt.target.id) {
-	// if (!hasmoved && activeProvince == evt.target.id) {
-		fRegisterMapTile(evt)
+	currentprovinceid = fGetProvinceID(evt.target);
+	if (activeProvince == currentprovinceid) {
+		fRegisterMapTile(currentprovinceid)
 		hasmoved = false;
 	}
 }
 
-function fRegisterMapTile(evt) {
-	//Testing the TextBox
+function fRegisterMapTile(id) {
 	NrClicks = NrClicks + 1;
-	fchangeText(evt.target.id);
+	fchangeText(id);
 	return false;
 }
 
@@ -147,6 +142,17 @@ function fResizeTextBox(TextID, RectangleID) {
     
 	RectangleID.setAttribute('width', CurrentTextWidth);
 	RectangleID.setAttribute('height', CurrentTextHeight);
+}
+
+function ffindUpperClass(el, classname) {
+    while (el.parentNode) {
+        el = el.parentNode;
+		if (el.className) {
+			if (el.className.baseVal === classname)
+				return el;
+		}
+    }
+    return null;
 }
 
 //ATM unused
