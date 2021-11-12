@@ -1,38 +1,105 @@
 ﻿var debuggingMode = false;
 //List of Events:  http://www.w3schools.com/jsref/dom_obj_event.asp
-//Helpful for JScript Debugging: document.getElementById("TaskText").innerHTML = currentMatrix;//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
+//Helpful for JScript Debugging: fchangeText(currentMatrix);//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
 var NrClicks = 0;   //Amount of clicks on Provinces
 //var TestStringArray = [ "erstes Testelement\n" ]; 
 var TestString = "erstes Testelement;闺女\n";
+var clickCoordinates = { x: 0, y: 0 };
+var mouseMoved = false;
+var mouseDown = false;
+var activeProvince = -1;
+var hasmoved = false;
+let scale = Math.log(1.0);
+
 
 // see following for events:  https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 //ACHTUNG!  addEventListener can only use functions without a return value!!!
 //"load" waits longer than "DOMContentLoaded", otherwise similar behaviour
 // that why load is disabled
 //window.addEventListener("load", fAddEventListeners, false);
-window.addEventListener("DOMContentLoaded", fAddEventListeners, false);
+window.addEventListener("DOMContentLoaded", finit, false);
+
+function finit() {
+	fAddEventListeners();
+	document.getElementById("WholeMap").setAttribute("transform","matrix(1 0 0 1 0 0)");
+	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
+}
 
 function fAddEventListeners() {
+	document.body.addEventListener("mousedown",function() { 
+		mouseDown = true;
+	},false);
+	document.body.addEventListener("mouseup",function() { 
+		mouseDown = false;
+		hasmoved = false;
+	},false);
+	document.body.addEventListener("mouseleave", function() { 
+		activeProvince = -1;
+	});
+	// document.body.addEventListener("mousemove", function(evt) { 
+	// 	if (mouseDown) {
+	// 		hasmoved = true;
+	// 	}
+	// });
+	document.body.addEventListener("mousemove",fMovement,false);
+	document.body.addEventListener("wheel",fZoom,false);
+
 	var MapTilePaths = document.getElementById("MapTiles").getElementsByTagName("path");
 	var WholeMapPaths = document.getElementById("WholeMap").getElementsByTagName("path");
 	var limit1 = MapTilePaths.length;
 	for (i = 0; i < limit1; i++) {
 		MapTilePaths[i].addEventListener("mousedown",fClickMapTile,false);
-		WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
+		MapTilePaths[i].addEventListener("mouseup",fReleaseMapTile,false);
+		// WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
 	}
 	var limit2 = WholeMapPaths.length;
 	for (i = limit1; i < limit2; i++) {
-		WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
+		// WholeMapPaths[i].addEventListener("mousedown",fDragMap,false);
 	}
-	document.getElementById("MapUnderlayer").addEventListener("mousedown",fDragMap,false);
+	// document.getElementById("MapUnderlayer").addEventListener("mousedown",fDragMap,false);
 }
 
+function fZoom(evt) {
+	// evt.preventDefault();
+	let WholeMap = document.getElementById("WholeMap")
+
+	scale += evt.deltaY * -0.001;
+	
+	// Restrict scale
+	scale = Math.min(Math.max(Math.log(.25), scale), Math.log(4));
+  	
+	// Apply scale transform
+	realscale = Math.E ** (scale);
+	// WholeMap.style.transform = `scale(${realscale})`;
+	WholeMap.setAttribute("transform", `scale(${realscale})`);
+	// for looking up the real values (in x and y) from the element:
+	// WholeMap.transform.baseVal[0].matrix.a
+	// WholeMap.transform.baseVal[0].matrix.d
+  }
+
+function fMovement(evt) {
+	if (mouseDown) {
+		if (!hasmoved) {
+			fDragMap(evt)
+		}
+		hasmoved = true;
+	}
+}
+
+// TODO: realize zooming with transform matrix only on "WholeMap" instead of each path individually. This also needs changing of fZoom()
 function fDragMap(evt) {
-	//move the map by clicking on any map tile
-	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
-	//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
-	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
-	return false;
+	// if (mouseDown) {
+		
+		//IMPROVEMENT POSSIBLE, TODO
+		// Lock MousePointer and make invisible with following functions:
+		//  https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+		
+		//move the map by clicking on any map tile
+		document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
+		//selectOtherElement(evt.target, document.getElementById('WholeMap').getElementsByTagName('path'),true);
+		selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
+		return false;
+	// }
 }
 
 //mit Rückgabewert
@@ -43,9 +110,23 @@ function fOnMouseOverProvince(ThisElement) {
 }
 
 function fClickMapTile(evt) {
+	// clickCoordinates.x = 
+	// mouseMoved = false;
+	activeProvince = evt.target.id;
+}
+
+function fReleaseMapTile(evt) {
+	if (activeProvince == evt.target.id) {
+	// if (!hasmoved && activeProvince == evt.target.id) {
+		fRegisterMapTile(evt)
+		hasmoved = false;
+	}
+}
+
+function fRegisterMapTile(evt) {
 	//Testing the TextBox
-	fchangeText();
-	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
+	NrClicks = NrClicks + 1;
+	fchangeText(evt.target.id);
 	return false;
 }
 
@@ -53,10 +134,10 @@ function fOnMouseOutProvince(ThisElement) {
 	//ThisElement.setAttribute('fill', '#FFF6D5');
 }
 
-function fchangeText() {
+function fchangeText(text) {
 // ATM just TEST
-	NrClicks = NrClicks + 1;
-	document.getElementById("TaskText").innerHTML = NrClicks;
+	document.getElementById("TaskText").innerHTML = text;
+	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
 }
 
 function fResizeTextBox(TextID, RectangleID) {
@@ -64,8 +145,8 @@ function fResizeTextBox(TextID, RectangleID) {
 	var CurrentTextWidth = TextID.getBoundingClientRect().width;
 	var CurrentTextHeight = TextID.getBoundingClientRect().height;
     
-	RectangleID.setAttributeNS(null,'width', CurrentTextWidth);
-	RectangleID.setAttributeNS(null,'height', CurrentTextHeight);
+	RectangleID.setAttribute('width', CurrentTextWidth);
+	RectangleID.setAttribute('height', CurrentTextHeight);
 }
 
 //ATM unused

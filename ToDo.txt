@@ -7,3 +7,6 @@
 
 - orientation change, mobile app
    https://jbkflex.wordpress.com/2011/12/06/429/
+
+- Lock MousePointer and make invisible with following functions: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+   in "JavascriptForSVG.js" in function "fDragMap(:
