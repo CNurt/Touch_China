@@ -5,24 +5,20 @@
 IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improvement!!
 -->
     <head>
+        <script  src="provinces.js" language="JavaScript"></script>
         <script  src="JavascriptForSVG.js" language="JavaScript"></script>
         <script  src="JS_MoveThings.js" language="JavaScript"></script>
         <script  src="CookieFunctions.js" language="JavaScript"></script>
         <!-- Erklärungen zu Selektoren:
                         wiki.selfhtml.org/wiki/CSS/Selektoren/einfacher_Selektor -->
         <style type="text/css">
-            body {
-                margin: 0;
-            }
-            #MapTiles path { fill: #e69900; stroke: #e6ffe6; stroke-width: 1; }
-            /* #MapTiles path:hover { fill: #b36b00; stroke: #343a34; } */
-            /* .province path:hover { fill: #b36b00; stroke: #343a34; } */
-
+            body { margin: 0; }
+            .province path, path.province { fill: #e69900; stroke: #e6ffe6; stroke-width: 1; }
             .province path:hover, path.province:hover { fill: #b36b00 !important; }
-
-            /* #AreasProvinces path { fill: #e69900; stroke: #e6ffe6; stroke-width: 1; }
-            path { fill: #e69900; stroke: #e6ffe6; stroke-width: 1; } */
+            .water path, path.water { fill:lightskyblue; opacity:1 }
             
+            #FlagsCapitols { display: none }
+            #LablesOfCapitolsProvinces { display: none }
             #FlagsCapitols path { fill: #FF9999; stroke: #EE3333; stroke-width: 3; }
             /* //IMPROVEMENT POSSIBLE
             "#FlagsCapitols path"  ARE without a Matrix, but this somehow does not work with all the other paths from the map. ???
@@ -70,7 +66,8 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
                 Color Picker:  http://www.w3schools.com/colors/colors_picker.asp
                 <a xlink:href="webseite.html" xlink:title="Verweis zu einer HTML-Seite">   -->
 
-                <rect id="MapUnderlayer" visibility="visible" width="100%" height="100%" style="fill:darkblue;opacity:0.7" />
+                <rect id="MapUnderlayer" visibility="visible" width="100%" height="100%" style="fill:lightskyblue" />
+
                 <g id="WholeMap">
                     <g id="MapTiles">
                         <g id="AreaTaiwanGroup">
@@ -126,7 +123,7 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
                                 </g>
                                 <path id="43" d="M1341.603,609.933 c-6.862,3.274-1.563,4.826-0.844,3.204c0.397-0.897,0.853-1.081,1.204-1.965C1341.79,610.793,1342.025,610.357,1341.603,609.933 L1341.603,609.933z M1335.545,611.808c-1.088,0.363-4.773,1.965-1.206,1.965C1336.213,613.771,1337.112,612.854,1335.545,611.808z  M1336.893,606.301c-0.078,0.572-3.563,8.833,3.865,3.209c2.971-2.248-0.219-0.263-0.543-2.75 c-0.032-0.255-0.128-0.498-0.19-0.746C1338.567,606.388,1337.595,606.412,1336.893,606.301L1336.893,606.301z"/>
                             </g>
-                            <g class="province" id="g64">
+                            <g class="water" id="g64">
                                 <path id="44" d="M391.466,329.492 c-0.093-1.526,1.012-2.1-1.055-2.901c-4.184-1.624-0.112-6.589-10.367-7.285l-1.446,0.121c-4.482,2.295,4.016,3.477-2.531,4.11 c-3.719,0.36,2.039,6.592,8.469,7.134C386.525,330.838,391.847,335.708,391.466,329.492L391.466,329.492z"/>
                                 <path id="45" d="M666.295,399.68 C666.553,398.952,667.869,400.368,666.295,399.68z M668.71,394.993c2.549,1.95-0.087-0.72-2.683,1.269 c-1.242,0.953-5.525-0.195-2.883,1.614c0.215-0.104,0.345-0.169,0.352-0.163c0.127,0.124,0.227,0.326,0.307,0.588 c0.438,0.268,0.981,0.584,1.652,0.954c0.344,0.19,0.62,0.327,0.84,0.425c-0.092,0.258-0.049,0.789,0.307,1.781 c0.729,2.045,1.732-0.945,2.803-0.814c0.026,0.002,1.16,2.423,3.856-3.899c1.456-3.412-2.73-2.431-3.918-6.076 c-0.193-0.598-0.509-1.034-1.114-1.27C664.919,388.121,667.279,393.896,668.71,394.993L668.71,394.993z"/>
                                 <path id="46" d="M636.16,359.839 c-3.308,2.671-1.197,3.004,1.92,6.462c0.953,0.771,1.523,1.141,1.886,1.287c1.249,0.512-0.008-1.605,3.352,1.262l-2.455-2.845 C636.458,361.588,637.658,358.628,636.16,359.839L636.16,359.839z M640.585,367.879c0.104,0.049,3.54,5.115,3.707,5.805 c0.46,1.895,3.372,1.447,1.906-2.216c-1.223-1.153-2.158-2.002-2.882-2.618c-3.358-2.867-2.103-0.75-3.352-1.262L640.585,367.879 L640.585,367.879z"/>
@@ -175,7 +172,7 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
                         <path id="path2666" d="M638.523,284.353l2.815-0.87"/>
                         <path id="path2668" d="M620.751,271.913l2.815-0.87"/>
                     </g>
-                    <g id="LablesOfCapitolsProvinces" display="none"><!-- display="none"  -->
+                    <g id="LablesOfCapitolsProvinces"><!-- display="none"  -->
                         <g>
                             <path d="M758.104,203.177l1.051-0.144c0.027,0.673,0.153,1.133,0.379,1.382c0.224,0.248,0.534,0.372,0.931,0.372 c0.293,0,0.545-0.067,0.757-0.201c0.214-0.134,0.358-0.316,0.438-0.546s0.12-0.598,0.12-1.103v-6.067h1.166v6.001 c0,0.737-0.09,1.308-0.269,1.712s-0.461,0.713-0.847,0.925c-0.387,0.212-0.841,0.318-1.361,0.318 c-0.771,0-1.363-0.223-1.773-0.667C758.283,204.715,758.086,204.054,758.104,203.177z"/>
                             <path d="M764.717,198.113v-1.243h1.081v1.243H764.717z M764.717,205.676v-6.379h1.081v6.379H764.717z"/>
@@ -706,14 +703,14 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
                     class="Top" 
                     width="100%" height="10%" display="inline" 
                     x="0" y="0" 
-                    preserveAspectRatio="XMinYMin meet"
+                    preserveAspectRatio="xMinYMin meet"
                     >
 
                     <!-- <rect id="pinkbg" width="100%" height="100%" style="fill:pink;opacity:0.5"/> -->
                     <!-- <rect id="BoxControlMove" cursor="pointer" transform="matrix(1 0 0 1 0 0)" x="200" y="0" rx="5" ry="5" width="20" height="20" style="fill:grey;stroke:black;stroke-width:5;opacity:0.5" /> -->
                     <g class="LittleTextBox">
-                        <rect id="TaskBox" x="1%" y="20%" rx="1" ry="1" width="20" height="40%" style="fill:pink;stroke:pink;stroke-width:20;opacity:1" />
-                        <text id="TaskText" style="font-size:36" transform="scale(1)" text-anchor="start" x="1%" y="50%" fill="darkgreen" dominant-baseline="middle">TextBox 文字框</text>
+                        <rect id="TaskBox" x="1%" y="20%" rx="1" ry="1" width="20" height="40%" style="fill:pink;stroke:pink;stroke-width:15;opacity:1" />
+                        <text id="TaskText" style="font-size:36" transform="scale(1)" text-anchor="start" x="1%" y="50%" fill="darkgreen" dominant-baseline="middle">TextBox 文本框</text>
                     </g>
                 </svg>
             <g>

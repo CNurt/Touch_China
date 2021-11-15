@@ -11,7 +11,6 @@ var activeProvince = -1;
 var hasmoved = false;
 let scale = Math.log(1.0);
 
-
 // see following for events:  https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 //ACHTUNG!  addEventListener can only use functions without a return value!!!
 //"load" waits longer than "DOMContentLoaded", otherwise similar behaviour
@@ -23,6 +22,8 @@ function finit() {
 	fAddEventListeners();
 	document.getElementById("WholeMap").setAttribute("transform","matrix(1 0 0 1 0 0)");
 	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
+
+	
 }
 
 function fAddEventListeners() {
@@ -101,9 +102,15 @@ function fClickMapTile(evt) {
 }
 
 function fGetProvinceID(el) {
-	cname = el.className.baseVal;
-	if (cname != "province") {
-		id = ffindUpperClass(el, "province").id;
+	classname = el.className.baseVal;
+	if (classname != "province") {
+		classobject = ffindUpperClass(el, "province");
+		if (classobject === null) {
+			return null
+		}
+		else {
+			id = classobject.id;
+		}
 	}
 	else {
 		id = el.id;
@@ -121,8 +128,14 @@ function fReleaseMapTile(evt) {
 
 function fRegisterMapTile(id) {
 	NrClicks = NrClicks + 1;
-	fchangeText(id);
+	fchangeText(fgetProvinceInfo(id, 'ProvinceSIM'));
 	return false;
+}
+
+function fgetProvinceInfo(id, what) {
+	// id   ...  id of SVG element of province
+	// what ...  which field to choose (i.e. ID;ProvinceEN;ProvinceSIM;ProvincePIN;CapitalEN;CapitalSIM;CapitalPIN;Abbreviation)
+	return provinces[id][what];
 }
 
 function fOnMouseOutProvince(ThisElement) {
@@ -154,6 +167,9 @@ function ffindUpperClass(el, classname) {
     }
     return null;
 }
+
+
+
 
 //ATM unused
 function onTextfileClick() {
