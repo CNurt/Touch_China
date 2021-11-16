@@ -14,9 +14,8 @@ let scale = Math.log(1.0);
 // see following for events:  https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 //ACHTUNG!  addEventListener can only use functions without a return value!!!
 //"load" waits longer than "DOMContentLoaded", otherwise similar behaviour
-// that why load is disabled
-//window.addEventListener("load", fAddEventListeners, false);
-window.addEventListener("DOMContentLoaded", finit, false);
+window.addEventListener("load", finit, false);
+// window.addEventListener("DOMContentLoaded", finit, false);
 
 function finit() {
 	fAddEventListeners();
