@@ -19,32 +19,32 @@ window.addEventListener("load", finit, false);
 
 function finit() {
 	fAddEventListeners();
-	document.getElementById("WholeMap").setAttribute("transform","matrix(1 0 0 1 0 0)");
+	document.getElementById("WholeMap").setAttribute("transform", "matrix(1 0 0 1 0 0)");
 	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
 
-	
+
 }
 
 function fAddEventListeners() {
-	document.body.addEventListener("mousedown",function() { 
+	document.body.addEventListener("mousedown", function () {
 		mouseDown = true;
-	},false);
-	document.body.addEventListener("mouseup",function() { 
+	}, false);
+	document.body.addEventListener("mouseup", function () {
 		mouseDown = false;
 		hasmoved = false;
-	},false);
-	document.body.addEventListener("mouseleave", function() { 
+	}, false);
+	document.body.addEventListener("mouseleave", function () {
 		activeProvince = -1;
 	});
-	document.body.addEventListener("mousemove",fMovement,false);
-	document.body.addEventListener("wheel",fZoom,{ passive: false });
+	document.body.addEventListener("mousemove", fMovement, false);
+	document.body.addEventListener("wheel", fZoom, { passive: false });
 
 	var MapTilePaths = document.getElementById("MapTiles").getElementsByTagName("path");
 	var WholeMapPaths = document.getElementById("WholeMap").getElementsByTagName("path");
 	var limit1 = MapTilePaths.length;
 	for (i = 0; i < limit1; i++) {
-		MapTilePaths[i].addEventListener("mousedown",fClickMapTile,false);
-		MapTilePaths[i].addEventListener("mouseup",fReleaseMapTile,false);
+		MapTilePaths[i].addEventListener("mousedown", fClickMapTile, false);
+		MapTilePaths[i].addEventListener("mouseup", fReleaseMapTile, false);
 	}
 	var limit2 = WholeMapPaths.length;
 	for (i = limit1; i < limit2; i++) {
@@ -56,17 +56,17 @@ function fZoom(evt) {
 	let WholeMap = document.getElementById("WholeMap")
 
 	scale += evt.deltaY * -0.001;
-	
+
 	// Restrict scale
 	scale = Math.min(Math.max(Math.log(.25), scale), Math.log(4));
-  	
+
 	// Apply scale transform
 	realscale = Math.E ** (scale);
 	WholeMap.setAttribute("transform", `scale(${realscale})`);
 	// for looking up the real values (in x and y) from the element:
 	// WholeMap.transform.baseVal[0].matrix.a
 	// WholeMap.transform.baseVal[0].matrix.d
-  }
+}
 
 function fMovement(evt) {
 	if (mouseDown) {
@@ -82,10 +82,10 @@ function fDragMap(evt) {
 	//IMPROVEMENT POSSIBLE, TODO
 	// Lock MousePointer and make invisible with following functions:
 	//  https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
-	
+
 	//move the map by clicking on any map tile
 	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
-	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'),true);
+	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'), true);
 	return false;
 }
 
@@ -142,29 +142,29 @@ function fOnMouseOutProvince(ThisElement) {
 }
 
 function fchangeText(text) {
-// ATM just TEST
+	// ATM just TEST
 	document.getElementById("TaskText").innerHTML = text;
 	fResizeTextBox(document.getElementById("TaskText"), document.getElementById("TaskBox"));
 }
 
 function fResizeTextBox(TextID, RectangleID) {
-// Resize rectangle used as a textbox in order to keep text inside the box
+	// Resize rectangle used as a textbox in order to keep text inside the box
 	var CurrentTextWidth = TextID.getBoundingClientRect().width;
 	var CurrentTextHeight = TextID.getBoundingClientRect().height;
-    
+
 	RectangleID.setAttribute('width', CurrentTextWidth);
 	RectangleID.setAttribute('height', CurrentTextHeight);
 }
 
 function ffindUpperClass(el, classname) {
-    while (el.parentNode) {
-        el = el.parentNode;
+	while (el.parentNode) {
+		el = el.parentNode;
 		if (el.className) {
 			if (el.className.baseVal === classname)
 				return el;
 		}
-    }
-    return null;
+	}
+	return null;
 }
 
 
@@ -172,13 +172,13 @@ function ffindUpperClass(el, classname) {
 
 //ATM unused
 function onTextfileClick() {
-//gets an <a> Tag by ID and asigns a link to a created textfile
-    var link = document.getElementById('ID_FROM_<a>_TAG');
-    //the <a> Tag already has to have the xlink:href="#" Attribute, otherwise it won't work
-    //IMPROVEMENT POSSIBLE
-    //should use setAttributeNS instead of setAttribute inside SVG but can't get it to work
-		link.setAttribute('xlink:href', makeTextFile(TestString));
-  }
+	//gets an <a> Tag by ID and asigns a link to a created textfile
+	var link = document.getElementById('ID_FROM_<a>_TAG');
+	//the <a> Tag already has to have the xlink:href="#" Attribute, otherwise it won't work
+	//IMPROVEMENT POSSIBLE
+	//should use setAttributeNS instead of setAttribute inside SVG but can't get it to work
+	link.setAttribute('xlink:href', makeTextFile(TestString));
+}
 
 //ATM unused
 /*
