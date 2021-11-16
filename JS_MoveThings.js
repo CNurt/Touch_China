@@ -70,7 +70,7 @@ function deselectOtherElement(evt) {
     ElTouched.removeAttributeNS(null, "onmouseout");
     ElTouched.removeAttributeNS(null, "onmouseup");
     if (debuggingMode) { alert("ATTANTION!\n the next line does actually not belong into this function for general usage.\nJust added for this map.") }
-    document.getElementById('MapCover').setAttributeNS(null, "visibility", "hidden");
+    document.getElementById('MapCover').setAttribute("visibility", "hidden");
     ElTouched = 0;
     ElMove = null;
   }

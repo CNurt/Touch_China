@@ -4,7 +4,6 @@
 var NrClicks = 0;   //Amount of clicks on Provinces
 //var TestStringArray = [ "erstes Testelement\n" ]; 
 var TestString = "erstes Testelement;闺女\n";
-var clickCoordinates = { x: 0, y: 0 };
 var mouseMoved = false;
 var mouseDown = false;
 var activeProvince = -1;
@@ -26,18 +25,18 @@ function finit() {
 }
 
 function fAddEventListeners() {
-	document.body.addEventListener("mousedown", function () {
+	document.addEventListener("mousedown", function () {
 		mouseDown = true;
 	}, false);
-	document.body.addEventListener("mouseup", function () {
+	document.addEventListener("mouseup", function () {
 		mouseDown = false;
 		hasmoved = false;
 	}, false);
-	document.body.addEventListener("mouseleave", function () {
+	document.addEventListener("mouseleave", function () {
 		activeProvince = -1;
 	});
-	document.body.addEventListener("mousemove", fMovement, false);
-	document.body.addEventListener("wheel", fZoom, { passive: false });
+	document.addEventListener("mousemove", fMovement, false);
+	document.addEventListener("wheel", fZoom, { passive: false });
 
 	var MapTilePaths = document.getElementById("MapTiles").getElementsByTagName("path");
 	var WholeMapPaths = document.getElementById("WholeMap").getElementsByTagName("path");
@@ -84,7 +83,7 @@ function fDragMap(evt) {
 	//  https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
 
 	//move the map by clicking on any map tile
-	document.getElementById('MapCover').setAttributeNS(null, "visibility", "visible");
+	document.getElementById('MapCover').setAttribute("visibility", "visible !important");
 	selectOtherElement(document.getElementById('MapCover'), document.getElementById('WholeMap').getElementsByTagName('path'), true);
 	return false;
 }
