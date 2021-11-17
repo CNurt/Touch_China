@@ -20,14 +20,14 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
 
             .province path,
             path.province {
-                fill: #e69900;
+                fill: #b36b00;
                 stroke: #e6ffe6;
                 stroke-width: 1;
             }
 
             .province path:hover,
             path.province:hover {
-                fill: #b36b00 !important;
+                fill: #e69900 !important;
                 stroke-width: 5 !important;
             }
 
@@ -38,7 +38,7 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
             }
 
             #MapUnderlayer {
-                fill: rgb(187, 187, 187)
+                fill: rgb(210, 210, 210)
             }
 
             #FlagsCapitols {
@@ -62,14 +62,16 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
                 /* visibility: hidden; is directly inside tag */
             }
 
-            #TaskBox {
+            .TextBox rect, .ButtonBox rect {
+            /* #TaskRect { */
                 fill: pink;
                 stroke: pink;
                 stroke-width: 15px;
                 opacity: 1;
             }
 
-            #TaskText {
+            .TextBox text, .ButtonBox text {
+            /* #TaskText { */
                 font-size: 36px;
                 font-family: simsun;
                 fill: darkgreen;
@@ -1215,9 +1217,13 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
     </g>
 
     <g id="gameUI" class="Top">
-        <g class="LittleTextBox">
-            <rect id="TaskBox" x="20" y="20" rx="1" ry="1" width="20" height="40" />
+        <g class="TextBox">
+            <rect id="TaskRect" x="20" y="20" rx="1" ry="1" width="20" height="40" />
             <text id="TaskText" text-anchor="start" x="20" y="48">TextBox 文本框</text>
+        </g>
+        <g class="ButtonBox">
+            <rect id="ButtonRect" x="20" y="80" rx="1" ry="1" width="20" height="40" />
+            <text id="ButtonText" text-anchor="start" x="20" y="108">start Game</text>
         </g>
     </g>
     <rect id="MapCover" width="100%" height="100%" visibility="hidden"/>

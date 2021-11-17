@@ -1,7 +1,16 @@
 class Provinces {
 
-    // will be a dictionary with keys like in CSV
-    // var provinces = {}
+    dict = {};
+
+    captions = {
+        'ProvinceEN': 1,
+        'ProvinceSIM': 2,
+        'ProvincePIN': 3,
+        'CapitalEN': 4,
+        'CapitalSIM': 5,
+        'CapitalPIN': 6,
+        'Abbreviation': 7
+    }
 
     constructor() {
         this.#createDict(this.#provincesCSV);
@@ -11,16 +20,18 @@ class Provinces {
         var lines = csvtext.split(/\r\n|\n/)
         lines.forEach(line => {
             var el = line.split(';');
-            this[el[0]] = {
-                'ProvinceEN': el[1],
-                'ProvinceSIM': el[2],
-                'ProvincePIN': el[3],
-                'CapitalEN': el[4],
-                'CapitalSIM': el[5],
-                'CapitalPIN': el[6],
-                'Abbreviation': el[7]
-            }
+            var tmp = this.parseCsvLine(line);
+            this.dict[el[0]] = tmp;
         });
+    }
+
+    parseCsvLine(csvline) {
+        var el = csvline.split(';');
+        var dict = {};
+        for (var cap in this.captions) {
+            dict[cap] = el[this.captions[cap]];
+        }
+        return dict
     }
 
     #provincesCSV = `8;Anhui;安徽省;Ānhuī Shěng;Hefei;合肥;;皖

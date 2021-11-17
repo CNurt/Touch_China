@@ -1,7 +1,12 @@
 ﻿var debuggingMode = false;
 //List of Events:  http://www.w3schools.com/jsref/dom_obj_event.asp
-//Helpful for JScript Debugging: fchangeText(currentMatrix);//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
+//Helpful for JScript Debugging: fchangeQuestText(currentMatrix);//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
 var NrClicks = 0;   //Amount of clicks on Provinces
+// questionType ...  which field to choose (i.e. ID;ProvinceEN;ProvinceSIM;ProvincePIN;CapitalEN;CapitalSIM;CapitalPIN;Abbreviation)
+var questionType = null;
+var gamestarted = false;
+var setOfQuestions = null;
+var currentQuestion = null;
 const provinces = new Provinces();
 
 // see following for events:  https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -11,20 +16,62 @@ window.addEventListener("load", finit, false);
 // window.addEventListener("DOMContentLoaded", finit, false);
 
 function finit() {
-	this.mapobject = new MapofChina(receiveMapTileId);
+	this.mapobject = new MapofChina(MapClickReceiver);
 	this.guiobject = new GUI();
+	questionType = 'ProvinceSIM';
 }
 
-function receiveMapTileId(id) {
+function MapClickReceiver(id) {
 	++NrClicks;
-	guiobject.fchangeText(fgetProvinceInfo(id, 'ProvinceSIM'));
-	return false;
+	if (gamestarted) {
+		if (currentQuestion == id) {
+			deleteQuestion(id);
+			if (setOfQuestions.size <= 0) {
+				finishGame();
+			}
+			else {
+				pickRandomQuestion();
+			}
+		}
+	}
 }
 
-function fgetProvinceInfo(id, what) {
+function fgetProvinceInfo(id) {
 	// id   ...  id of SVG element of province
-	// what ...  which field to choose (i.e. ID;ProvinceEN;ProvinceSIM;ProvincePIN;CapitalEN;CapitalSIM;CapitalPIN;Abbreviation)
-	return provinces[id][what];
+	return provinces.dict[id][questionType];
+}
+
+function startGame() {
+	console.log('startGame start');
+	setOfQuestions = createSetOfQuestions();
+	pickRandomQuestion();
+	gamestarted = true;
+}
+
+function pickRandomQuestion() {
+	var array = Array.from(setOfQuestions);
+	max = array.length;
+	randNum = getRandomInt(max);
+	currentQuestion = array[randNum];
+	guiobject.fchangeQuestText(fgetProvinceInfo(currentQuestion));
+}
+
+function createSetOfQuestions() {
+	var keys = Object.keys(provinces.dict);
+	return new Set(keys);
+}
+
+function deleteQuestion(id) {
+	setOfQuestions.delete(id);
+}
+
+function finishGame() {
+	console.log('Game finished!');
+	alert('Game finished!');
+}
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * max);
 }
 
 function ffindUpperClass(el, classname) {
@@ -84,12 +131,14 @@ class MapofChina {
 	}
 
 	fZoom(evt) {
+		var minZoom = 0.25;
+		var maxZoom = 6;
 		evt.preventDefault();
 
 		this.scale += evt.deltaY * -0.001;
 
 		// Restrict scale
-		this.scale = Math.min(Math.max(Math.log(.25), this.scale), Math.log(4));
+		this.scale = Math.min(Math.max(Math.log(minZoom), this.scale), Math.log(maxZoom));
 
 		// Apply scale transform
 		var realscale = Math.E ** (this.scale);
@@ -151,7 +200,6 @@ class MapofChina {
 		var currentprovinceid = this.fGetMapTileID(evt.target);
 		if (this.activeProvince == currentprovinceid) {
 			this.mapTileIdReceiverFunction(currentprovinceid)
-			// this.fRegisterMapTile(currentprovinceid)
 			this.hasmoved = false;
 		}
 	}
@@ -170,14 +218,14 @@ class GUI {
 
 	finit() {
 		this.TaskText_el = document.getElementById("TaskText");
-		this.TaskBox_el = document.getElementById("TaskBox");
-		this.fResizeTextBox(this.TaskText_el, this.TaskBox_el);
+		this.TaskRect_el = document.getElementById("TaskRect");
+		this.fResizeTextBox(this.TaskText_el, this.TaskRect_el);
 	}
 
-	fchangeText(text) {
+	fchangeQuestText(text) {
 		// ATM just TEST
 		this.TaskText_el.innerHTML = text;
-		this.fResizeTextBox(this.TaskText_el, this.TaskBox_el);
+		this.fResizeTextBox(this.TaskText_el, this.TaskRect_el);
 	}
 
 	fResizeTextBox(TextID, RectangleID) {
