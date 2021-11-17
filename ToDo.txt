@@ -10,3 +10,12 @@
 
 - Lock MousePointer and make invisible with following functions: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
    in "JavascriptForSVG.js" in function "fDragMap(:
+   
+- veränderbare Eigenschaften:
+	- markiere richtig geratenes Feld (ja/nein)
+	- suche nach Provinz/Stadt/Pinyin/...
+	- Spieltyp:
+		- mit Zeitbegrenzung: in einer bestimmten Zeit möglichst viele finden, Bewertung ist die Anzahl, je mehr desto besser
+		- ohne Zeitbegrenzung: alle finden, die Bewertung ist die Zeit, je kürzer desto besser
+		
+	

@@ -8,7 +8,8 @@ var mouseMoved = false;
 var mouseDown = false;
 var activeProvince = -1;
 var hasmoved = false;
-let scale = Math.log(1.0);
+var scale = Math.log(1.0);
+const provinces = new Provinces();
 
 // see following for events:  https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 //ACHTUNG!  addEventListener can only use functions without a return value!!!
@@ -96,10 +97,10 @@ function fOnMouseOverProvince(ThisElement) {
 }
 
 function fClickMapTile(evt) {
-	activeProvince = fGetProvinceID(evt.target);
+	activeProvince = fGetMapTileID(evt.target);
 }
 
-function fGetProvinceID(el) {
+function fGetMapTileID(el) {
 	classname = el.className.baseVal;
 	if (classname != "province") {
 		classobject = ffindUpperClass(el, "province");
@@ -117,7 +118,7 @@ function fGetProvinceID(el) {
 }
 
 function fReleaseMapTile(evt) {
-	currentprovinceid = fGetProvinceID(evt.target);
+	currentprovinceid = fGetMapTileID(evt.target);
 	if (activeProvince == currentprovinceid) {
 		fRegisterMapTile(currentprovinceid)
 		hasmoved = false;
@@ -165,37 +166,3 @@ function ffindUpperClass(el, classname) {
 	}
 	return null;
 }
-
-
-
-
-//ATM unused
-function onTextfileClick() {
-	//gets an <a> Tag by ID and asigns a link to a created textfile
-	var link = document.getElementById('ID_FROM_<a>_TAG');
-	//the <a> Tag already has to have the xlink:href="#" Attribute, otherwise it won't work
-	//IMPROVEMENT POSSIBLE
-	//should use setAttributeNS instead of setAttribute inside SVG but can't get it to work
-	link.setAttribute('xlink:href', makeTextFile(TestString));
-}
-
-//ATM unused
-/*
-makeTextFile = function (text) {
-//creates a link to a textfile, which has been created from a string variable
-	var textFile = null
-	//charset=utf-8 works only in firefox so far
-	var data = new Blob([text], {type: 'text/plain; charset=utf-8'});
-
-	// If we are replacing a previously generated file we need to
-	// manually revoke the object URL to avoid memory leaks.
-	if (textFile !== null) {
-		window.URL.revokeObjectURL(textFile);
-	}
-
-	textFile = window.URL.createObjectURL(data);
-
-	// returns a URL you can use as a href
-	return textFile;
-};
-*/

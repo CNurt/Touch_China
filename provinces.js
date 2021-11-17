@@ -1,23 +1,29 @@
-// will be a dictionary with keys like in CSV
-var provinces = {}
+class Provinces {
 
-function addToDict(csvtext) {
-    var lines = csvtext.split(/\r\n|\n/)
-    lines.forEach(line => {
-        var el = line.split(';');
-        provinces[el[0]] = {
-            'ProvinceEN': el[1],
-            'ProvinceSIM': el[2],
-            'ProvincePIN': el[3],
-            'CapitalEN': el[4],
-            'CapitalSIM': el[5],
-            'CapitalPIN': el[6],
-            'Abbreviation': el[7]
-        }
-    });
-}
+    // will be a dictionary with keys like in CSV
+    // var provinces = {}
 
-var provincesCSV = `8;Anhui;安徽省;Ānhuī Shěng;Hefei;合肥;;皖
+    constructor() {
+        this.#createDict(this.#provincesCSV);
+    }
+
+    #createDict(csvtext) {
+        var lines = csvtext.split(/\r\n|\n/)
+        lines.forEach(line => {
+            var el = line.split(';');
+            this[el[0]] = {
+                'ProvinceEN': el[1],
+                'ProvinceSIM': el[2],
+                'ProvincePIN': el[3],
+                'CapitalEN': el[4],
+                'CapitalSIM': el[5],
+                'CapitalPIN': el[6],
+                'Abbreviation': el[7]
+            }
+        });
+    }
+
+    #provincesCSV = `8;Anhui;安徽省;Ānhuī Shěng;Hefei;合肥;;皖
 33;Fujian;福建省;Fújiàn Shěng;Fuzhou;福州;;闽
 12;Gansu;甘肃省;Gānsù Shěng;Lanzhou;兰州;;甘(陇)
 37;Guangdong;广东省;Guǎngdōng Shěng;Guangzhou;广州;;粤
@@ -52,4 +58,4 @@ g29933;Hong Kong;香港特别行政区;Xiānggǎng Tèbié Xíngzhèngqū;Hong K
 39;Macau;澳门特别行政区;Àomén Tèbié Xíngzhèngqū;Macau;澳门;;澳
 AreaTaiwan;Taiwan;台湾;;Taipei;台北;;`;
 
-addToDict(provincesCSV);
+}

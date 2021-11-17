@@ -4,7 +4,7 @@
     xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="100%"
     width="100%">
-    <!-- 
+<!-- 
 IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improvement!!
 -->
     <defs>
@@ -88,17 +88,7 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
     </defs>
 
     <g id="MapChina" x="0px" y="0px">
-        <!-- <svg version="1.1" id="GroupChina" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" class="MapChina" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 100% 100%" preserveAspectRatio="XMinYMin meet"> -->
-        <!-- 
-        IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improvement!!
-        -->
-
-        <!-- http://www.w3schools.com/svg/svg_rect.asp
-        Color Picker:  http://www.w3schools.com/colors/colors_picker.asp
-        <a xlink:href="webseite.html" xlink:title="Verweis zu einer HTML-Seite">   -->
-
         <rect id="MapUnderlayer" visibility="visible" width="100%" height="100%" />
-
         <g id="WholeMap">
             <g id="MapTiles">
                 <g id="AreaTaiwanGroup">
@@ -1221,9 +1211,7 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
             </g>
             <!-- display="none" visibility="hidden" OR "visible"
                     "diplay" causes children to inherit this value whereas "visibility" is not being inherited  -->
-
         </g>
-        
     </g>
 
     <g id="gameUI" class="Top">
