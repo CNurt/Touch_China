@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    Licensed under Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+    You may obtain a copy of the License at
+
+        https://creativecommons.org/licenses/by-sa/3.0/deed.de
+    
+    Attribution goes to the original author of the visual map: JCS (https://commons.wikimedia.org/wiki/User:JCS)
+
+    The original file was adapted, modified and built upon.
+ -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
     xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
