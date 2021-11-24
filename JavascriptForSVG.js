@@ -19,6 +19,7 @@ function finit() {
 	this.mapobject = new MapofChina(MapClickReceiver);
 	this.guiobject = new GUI();
 	questionType = 'ProvinceSIM';
+	document.getElementById('startGameButton').addEventListener("mousedown", startGame, false);
 }
 
 function MapClickReceiver(id) {
@@ -67,7 +68,7 @@ function deleteQuestion(id) {
 
 function finishGame() {
 	console.log('Game finished!');
-	alert('Game finished!');
+	alert('Congratulation! You finished the game successful.');
 }
 
 function getRandomInt(max) {
@@ -85,6 +86,11 @@ function ffindUpperClass(el, classname) {
 	return null;
 }
 
+function isTouchDevice() {
+	return (('ontouchstart' in window) ||
+		(navigator.maxTouchPoints > 0) ||
+		(navigator.msMaxTouchPoints > 0));
+}
 
 
 class MapofChina {
@@ -119,7 +125,14 @@ class MapofChina {
 		document.addEventListener("mouseleave", function () {
 			this.activeProvince = -1;
 		}.bind(this));
-		document.addEventListener("mousemove", this.fMovement.bind(this), false);
+
+		if (!isTouchDevice()) {
+			document.addEventListener("mousemove", this.fMovement.bind(this), false);
+		}
+		if (isTouchDevice()) {
+			document.addEventListener("touchmove", this.fDragMap.bind(this), false);
+		}
+
 		document.addEventListener("wheel", this.fZoom.bind(this), { passive: false });
 
 		var MapTilePaths = document.getElementById("MapTiles").getElementsByTagName("path");
