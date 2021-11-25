@@ -19,7 +19,8 @@ IMPROVEMENT POSSIBLE, This Tag means that there is definitely room for improveme
 -->
     <defs>
         <script xlink:href="provinces.js" language="JavaScript"></script>
-        <script xlink:href="JavascriptForSVG.js" language="JavaScript"></script>
+        <script xlink:href="game_essentials.js" language="JavaScript"></script>
+        <script xlink:href="game_logic.js" language="JavaScript"></script>
         <script xlink:href="JS_MoveThings.js" language="JavaScript"></script>
         <script xlink:href="CookieFunctions.js" language="JavaScript"></script>
         <!-- Erklärungen zu Selektoren: wiki.selfhtml.org/wiki/CSS/Selektoren/einfacher_Selektor -->
