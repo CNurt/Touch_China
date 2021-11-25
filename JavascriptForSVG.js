@@ -1,4 +1,5 @@
-﻿var debuggingMode = false;
+
+var debuggingMode = false;
 //List of Events:  http://www.w3schools.com/jsref/dom_obj_event.asp
 //Helpful for JScript Debugging: fchangeQuestText(currentMatrix);//alert(ElTouched + ElMove + "\n" + dx + "\n" + dy);
 var NrClicks = 0;   //Amount of clicks on Provinces
@@ -93,6 +94,139 @@ function isTouchDevice() {
 }
 
 
+
+class TouchEventHandler {
+	// array of all touch pointers
+	touchEvCache = new Array();
+	prevPointerDistance = -1;
+	scale = Math.log(1.0);
+
+	constructor(elementForEventhandlers, elementToResize, elementToMove) {
+		// alert('constructor');
+		this.elementForEventhandlers = elementForEventhandlers;
+		this.elementToResize = elementToResize;
+		this.elementToMove = elementToMove;
+		this.init()
+	}
+
+	// window.addEventListener("load", init, false);
+	init() {
+		// alert('init');
+		// Install event handlers for the pointer target
+		//   see folowing for full list of events:
+		// 		https://w3c.github.io/pointerevents/#extensions-to-the-globaleventhandlers-mixin
+		this.elementForEventhandlers.onpointerdown = this.pointerdown_handler.bind(this);
+		///////
+		this.elementForEventhandlers.onpointerover = this.pointerdown_handler.bind(this);
+		this.elementForEventhandlers.onpointerenter = this.pointerdown_handler.bind(this);
+		/////////
+		this.elementForEventhandlers.onpointermove = this.pointermove_handler.bind(this);
+
+		this.elementForEventhandlers.onpointerup = this.pointerup_handler.bind(this);
+		this.elementForEventhandlers.onpointercancel = this.pointerup_handler.bind(this);
+		this.elementForEventhandlers.onpointerout = this.pointerup_handler.bind(this);
+		this.elementForEventhandlers.onpointerleave = this.pointerup_handler.bind(this);
+	}
+
+	pointerdown_handler(ev) {
+		var ordinal_nr = this.get_duplicate_event_ordinal(ev);
+		if (ordinal_nr < 0) {
+			this.touchEvCache.push(ev);
+		}
+		console.log(this.touchEvCache.length);
+	}
+
+	pointermove_handler(ev) {
+
+		// Find this event in the cache and update its record with this event
+		for (var i = 0; i < this.touchEvCache.length; i++) {
+			if (ev.pointerId == this.touchEvCache[i].pointerId) {
+				this.touchEvCache[i] = ev;
+				break;
+			}
+		}
+
+		// If only one pointer is down, move and disable touch event
+		if (this.touchEvCache.length == 1) {
+			console.log('TODO: touch move map');
+			console.log('TODO: integrate JS_MoveThings.js and change to only move map (remove some complexity)');
+			// this.elementToMove...
+			var MapCover = document.getElementById('MapCover');
+			MapCover.setAttribute("visibility", "visible !important");
+			// this.WholeMap.
+			// selectOtherElement(MapCover, document.getElementById('WholeMap').getElementsByTagName('path'), true);
+			selectOtherElement(MapCover, document.getElementById('WholeMap'), false);
+			// selectElement(ev);
+		}
+
+		// If two pointers are down, check for pinch gestures (zoom)
+		if (this.touchEvCache.length == 2) {
+			console.log('TODO: adapt zoom to center with simultanious move (according to middle of 2 pointers)');
+			// document.getElementById('testh1').textContent = Math.random();
+			// Calculate the distance between the two pointers
+			var x = [this.touchEvCache[0].clientX, this.touchEvCache[1].clientX];
+			var y = [this.touchEvCache[0].clientY, this.touchEvCache[1].clientY];
+			var curPointerDistance = Math.sqrt((x[0] - x[1]) ** 2 + (y[0] - y[1]) ** 2);
+
+
+			if (this.prevPointerDistance > 0) {
+
+
+				var minZoom = 0.25;
+				var maxZoom = 6;
+
+				var zoomDistance = curPointerDistance - this.prevPointerDistance;
+				// var currSizeOfElementToResize = this.elementToResize. SIZE;
+				// var currSizeOfElementToResize = this.scale;
+				// var this.scale = parseFloat(currSizeOfElementToResize) + zoomDistance;
+				// Restrict scale
+				this.scale += zoomDistance / 500;
+				this.scale = Math.min(Math.max(Math.log(minZoom), this.scale), Math.log(maxZoom));
+				// Apply scale transform
+				var realscale = Math.E ** (this.scale);
+				// console.log(realscale);
+				// this.WholeMap.setAttribute("transform", `scale(${realscale})`);
+				// this.elementToResize. SIZE = this.scale;
+				this.elementToResize.setAttribute("transform", `scale(${realscale})`);
+			}
+			this.prevPointerDistance = curPointerDistance;
+		}
+	}
+
+	pointerup_handler(ev) {
+		this.remove_event(ev);
+		if (this.touchEvCache.length < 2) {
+			this.prevPointerDistance = -1;
+		}
+		console.log(this.touchEvCache.length);
+	}
+
+	remove_event(ev) {
+		// Remove this event from the target's cache
+		// for (var i = 0; i < this.touchEvCache.length; i++) {
+		// 	if (this.touchEvCache[i].pointerId == ev.pointerId) {
+		// 		this.touchEvCache.splice(i, 1);
+		// 		break;
+		// 	}
+		// }
+		var ordinal_nr = this.get_duplicate_event_ordinal(ev);
+		if (ordinal_nr >= 0) {
+			this.touchEvCache.splice(ordinal_nr, 1);
+		}
+	}
+
+	get_duplicate_event_ordinal(ev) {
+		for (var i = 0; i < this.touchEvCache.length; i++) {
+			if (this.touchEvCache[i].pointerId == ev.pointerId) {
+				return i;
+			}
+		}
+		return -1;
+	}
+}
+
+
+
 class MapofChina {
 	mouseMoved = false;
 	mouseDown = false;
@@ -109,6 +243,9 @@ class MapofChina {
 		this.fAddEventListeners();
 		this.WholeMap = document.getElementById("WholeMap");
 		this.WholeMap.setAttribute("transform", "matrix(1 0 0 1 0 0)");
+		if (isTouchDevice()) {
+			this.tmp = new TouchEventHandler(document.getElementsByTagName('svg')[0], this.WholeMap, this.WholeMap);
+		}
 	}
 
 	fAddEventListeners() {
@@ -170,16 +307,14 @@ class MapofChina {
 		}
 	}
 
-	// TODO: realize zooming with transform matrix only on "WholeMap" instead of each path individually. This also needs changing of fZoom()
 	fDragMap(evt) {
 		//IMPROVEMENT POSSIBLE, TODO
 		// Lock MousePointer and make invisible with following functions:
 		//  https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
 
 		//move the map by clicking on any map tile
-		var MapCover = document.getElementById('MapCover');
-		MapCover.setAttribute("visibility", "visible !important");
-		selectOtherElement(MapCover, this.WholeMap.getElementsByTagName('path'), true);
+		// document.getElementById('MapCover').setAttribute("visibility", "visible !important");
+		selectOtherElement(document.getElementById('MapCover'), this.WholeMap.getElementsByTagName('path'), true);
 		return false;
 	}
 

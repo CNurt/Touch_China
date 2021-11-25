@@ -12,13 +12,14 @@ var ElTouched = 0;
 var ElMove = 0;
 var severalEls = false; //defines whether just one file or an array of ElMove is being transfered
 
-function selectOtherElement(El_Touched, El_Move, several_Els) {
+function selectOtherElement(_ElTouched, _ElMove, _severalEls) {
   //Clone of function selectElement(evt) but for moving a different element than the touched one
   //type of ElTouched is like document.getElementById("myLI") or evt.target
   // ElTouched := evt.target
-  severalEls = several_Els;
-  ElTouched = El_Touched;
-  ElMove = El_Move;
+  severalEls = _severalEls;
+  ElTouched = _ElTouched;
+  ElMove = _ElMove;
+  ElTouched.setAttribute("visibility", "visible !important");
   //IMPROVEMENT POSSIBLE
   //function cursorPoint(evt) could be used here, but didn't get it to work yet
   //pt.x = evt.clientX; pt.y = evt.clientY;
@@ -70,7 +71,7 @@ function deselectOtherElement(evt) {
     ElTouched.removeAttributeNS(null, "onmouseout");
     ElTouched.removeAttributeNS(null, "onmouseup");
     if (debuggingMode) { alert("ATTANTION!\n the next line does actually not belong into this function for general usage.\nJust added for this map.") }
-    document.getElementById('MapCover').setAttribute("visibility", "hidden");
+    ElTouched.setAttribute("visibility", "hidden");
     ElTouched = 0;
     ElMove = null;
   }
